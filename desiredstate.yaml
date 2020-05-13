@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dotnet-hello-world
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dotnet-hello-world
+  template:
+    metadata:
+      labels:
+        app: dotnet-hello-world
+      annotations:
+        dotnet-monitor.io/enable: 'true'
+        dotnet-monitor.io/port: '52323'
+    spec:
+      containers:
+      - name: server
+        image: dotnet-hello-world
+        ports:
+        - containerPort: 8080
+        env:
+        - name: PORT
+          value: "8080"
