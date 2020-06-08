@@ -49,7 +49,7 @@ $ kubectl get pod -l app=dotnet-hello-world
 NAME                                 READY   STATUS    RESTARTS   AGE
 dotnet-hello-world-dc6f67566-t2dzd   2/2     Running   0          37m
 
-$ kubectl port forward pods/dotnet-hello-world-dc6f67566-t2dzd 
+$ kubectl port-forward pods/dotnet-hello-world-dc6f67566-t2dzd 7000:52323
 Forwarding from 127.0.0.1:7000 -> 52323
 Forwarding from [::1]:7000 -> 52323
 ```
