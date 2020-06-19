@@ -14,6 +14,9 @@ spec:
       app: dotnet-hello-world
   template:
     metadata:
+      annotations:
+        prometheus.io/scrape: 'true'
+        prometheus.io/port: "52325"
       labels:
         app: dotnet-hello-world
     spec:
@@ -22,24 +25,17 @@ spec:
         emptyDir: {}
       containers:
       - name: server
-        image: dotnet-hello-world
+        image: mcr.microsoft.com/dotnet/core/samples:aspnetapp
         ports:
-        - containerPort: 8080
-        env:
-        - name: PORT
-          value: "8080"
-        resources:
-          requests:
-            cpu: 250m
+        - containerPort: 80
         volumeMounts:
           - mountPath: /tmp
             name: diagnostics
       - name: sidecar
-        image: dotnet-monitor
-        resources:
-          limits:
-            cpu: 250m
-            memory: 100Mi
+        image: mcr.microsoft.com/dotnet/nightly/monitor
+        ports:
+        - containerPort: 52325
+        args: ["--urls", "http://*:52323", "--metricUrls", "http://*:52325"]
         volumeMounts:
           - name: diagnostics
             mountPath: /tmp

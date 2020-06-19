@@ -14,4 +14,7 @@ spec:
   ports:
   - name: http
     port: 80
-    targetPort: 8080
+    targetPort: 80
+  - name: metrics
+    port: 52325
+    targetPort: 52325

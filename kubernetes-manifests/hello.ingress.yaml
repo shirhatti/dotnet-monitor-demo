@@ -17,5 +17,5 @@ spec:
       paths:
       - backend:
           serviceName: dotnet-hello-world-external
-          servicePort: 8080
+          servicePort: 80
         path: /(.*)
