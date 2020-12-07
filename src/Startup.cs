@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace src
 {
@@ -26,6 +27,11 @@ namespace src
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapGet("/crash", async context =>
+                {
+                    Environment.FailFast("Crash the process");
+                    await context.Response.WriteAsync("Hello World!");
+                });
                 endpoints.MapGet("/", async context =>
                 {
                     context.Response.ContentType = "text/plain";

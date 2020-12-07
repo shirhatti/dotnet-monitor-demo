@@ -17,4 +17,10 @@ WORKDIR /src
 COPY --from=publish /out .
 ENV ASPNETCORE_URLS=http://*:8080
 
+RUN apk add --no-cache \
+        ca-certificates \
+        \
+        strace
+
+# ENTRYPOINT ["strace", "-f", "-o", "/tmp/outfile.txt", "dotnet", "helloworld.dll"]
 ENTRYPOINT ["dotnet", "helloworld.dll"]

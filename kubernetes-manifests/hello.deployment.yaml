@@ -17,23 +17,37 @@ spec:
       labels:
         app: dotnet-hello-world
     spec:
+      # securityContext:
+      #   runAsUser: 1000
+      #   fsGroup: 1000
       volumes:
       - name: diagnostics
         emptyDir: {}
+      - name: cores
+        hostPath:
+          path: /var/log/core-dump
       containers:
       - name: server
         image: dotnet-hello-world
         ports:
         - containerPort: 8080
-        env:
-        - name: PORT
-          value: "8080"
+        # env:
+        # - name: PORT
+        #   value: "8080"
+        # - name: COMPlus_DbgEnableMiniDump
+        #   value: "1"
+        # - name: COMPlus_DbgMiniDumpType
+        #   value: "4"
+        # - name: COMPlus_DbgMiniDumpName
+        #   value: "/cores/prober-core-%d"
         resources:
           requests:
             cpu: 250m
         volumeMounts:
           - mountPath: /tmp
             name: diagnostics
+          - mountPath: /cores
+            name: cores
       - name: sidecar
         image: dotnet-monitor
         resources:
